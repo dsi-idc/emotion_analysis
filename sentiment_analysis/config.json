@@ -1,0 +1,34 @@
+{
+  "model_version": "0.1",
+  "description": "base sentiment analyser project - 10.8.2020",
+  "random_seed": 1984,
+  "model_type": "BOW", //can be wither "arabert" or "BOW"
+  "data_path": {
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data"
+	},
+  "saving_data_path": {
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data\\bert_created_data"
+	},
+  "saving_models_path": {
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models"
+  },
+  //sampling rate of the train/dev data - has to be a number in the [0,1] range or None (None=no sampling)
+  "sample_rate": 1.0,
+  "arabert_model_name": "aubmindlab/bert-base-arabert",
+  "bert_model_params": {
+    "evaluate_during_training": "True",
+    "adam_epsilon": 1e-8,
+    "learning_rate": 2e-5,
+    "warmup_steps": 0,
+    "per_gpu_train_batch_size": 16,
+    "per_gpu_eval_batch_size": 16,
+    "num_train_epochs": 1
+  },
+  "bow_model_params": {
+    "min_df": 0.01,
+    "max_df": 0.95,
+    "ngram_range": "(1, 2)",
+    "clf": "GradientBoostingClassifier"//"LinearSVC"//"DecisionTreeClassifier"//"RandomForestClassifier"//"GradientBoostingClassifier"
+  }
+
+}
