@@ -1,0 +1,14 @@
+###### Requirements without Version Specifiers ######`
+simpletransformers
+wandb
+tweet-preprocessor
+farasapy
+pyarabic
+transformers
+nltk
+spacy
+commentjson
+#git clone https://github.com/aub-mind/arabert
+###### Requirements with Version Specifiers ######`
+torch==1.6.0+cpu torchvision==0.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html             #Use torch===1.6.0 torchvision===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html for CUDA
+
