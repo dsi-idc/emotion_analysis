@@ -12,6 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.svm import LinearSVC
 from sklearn.metrics import roc_auc_score, accuracy_score, classification_report
+import pickle
 import abc
 
 
@@ -222,6 +223,26 @@ class BOWBasedSentimentAnalyser(SentimentAnalyser):
                   f"simple 'predict' function.")
             raise AttributeError
         return prediction
+
+    def save_model(self, folder_name, file_name):
+        folder_to_save_into = os.path.join(self.saving_model_folder, folder_name)
+        if not os.path.isdir(folder_to_save_into):
+            os.system('mkdir -p ' + folder_to_save_into)
+        pickle.dump(self.pipeline, open(os.path.join(folder_to_save_into, file_name + '.p'), "wb"))
+        print(f"Model has been saved to {os.path.join(folder_to_save_into, file_name + '.p')}")
+        return
+
+    @staticmethod
+    def load_model(folder_name, file_name):
+        """
+        a function to load the DL model from the disk
+        :param folder_name: str
+            folder location where the model has been saved
+        :return: model (arabert)
+            the model loaded
+        """
+        loaded_model = pickle.load(open(os.path.join(folder_name, file_name), "rb"))
+        return loaded_model
 
 
 class BertBasedSentimentAnalyser(SentimentAnalyser):

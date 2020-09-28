@@ -84,6 +84,9 @@ if __name__ == "__main__":
         bow_based_sentiment_obj.eval_clf(y_true=dev_label, y_pred=dev_positive_prediction, save_results=True)
         print("Here are the results of the model over the dev dataset:")
         print(bow_based_sentiment_obj.results)
+
+        #saving the model created into a folder
+        bow_based_sentiment_obj.save_model(folder_name='bow_based_models', file_name='bow_model_28.9.2020')
         #otherwise...
         '''
         train_set_predictions = bow_based_sentiment_obj.predict(data=train_sentiment_df['text'])

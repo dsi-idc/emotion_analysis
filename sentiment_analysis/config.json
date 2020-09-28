@@ -25,10 +25,10 @@
     "num_train_epochs": 1
   },
   "bow_model_params": {
-    "min_df": 0.01,
-    "max_df": 0.95,
-    "ngram_range": "(1, 2)",
-    "clf": "GradientBoostingClassifier"//"LinearSVC"//"DecisionTreeClassifier"//"RandomForestClassifier"//"GradientBoostingClassifier"
+    "min_df": 0.001,
+    "max_df": 0.8,
+    "ngram_range": "(1, 1)",
+    "clf": "RandomForestClassifier"//"LinearSVC"//"DecisionTreeClassifier"//"RandomForestClassifier"//"GradientBoostingClassifier"
   }
 
 }
