@@ -1,10 +1,11 @@
 from arabic_sentiment.data_loader import DataLoader
+from arabert.preprocess_arabert import preprocess
 from arabic_data_preprocess.pre_process import PreProcess
 from arabic_sentiment.sentiment_clf import BertBasedSentimentAnalyser, BOWBasedSentimentAnalyser
 import commentjson
 import os
 from transformers import AutoTokenizer
-from arabert.preprocess_arabert import never_split_tokens
+from farasa.segmenter import FarasaSegmenter
 # import logging
 # logging.basicConfig(level=logging.INFO)
 # logger = logging.getLogger(__name__)
@@ -27,7 +28,6 @@ if __name__ == "__main__":
     dev_sentiment_df = \
         data_loader_obj.load_tsv_files(file_names=dev_tsvs, new_column_names=[label_col, 'text'],
                                        seed=config_dict['random_seed'], sample_rate=config_dict['sample_rate'])
-
     # preprocessing the data to be used by the clf later. If it is a BOW model - we'll pull out and paste the emojies
     preprocess_obj = PreProcess(use_default_farsa_preprocess=True)
     train_sentiment_df['text'] =\
@@ -42,8 +42,7 @@ if __name__ == "__main__":
         dev_label = dev_sentiment_df[label_col]
         bert_model_name = config_dict['arabert_model_name']
         # fitting the model
-        tokenizer = AutoTokenizer.from_pretrained(bert_model_name, do_lower_case=False,
-                                                  do_basic_tokenize=True, never_split=never_split_tokens)
+        tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
         bert_params_dict = config_dict['bert_model_params']
         bert_params_dict['seed'] = config_dict['random_seed']
         bert_based_sentiment_obj = \

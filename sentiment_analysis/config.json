@@ -2,7 +2,7 @@
   "model_version": "0.1",
   "description": "base sentiment analyser project - 10.8.2020",
   "random_seed": 1984,
-  "model_type": "BOW", //can be wither "arabert" or "BOW"
+  "model_type": "arabert", //can be wither "arabert", "BOW" or "gigabert" (note that "aranet" is not fine-tuned!
   "data_path": {
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data"
 	},
@@ -13,8 +13,9 @@
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models"
   },
   //sampling rate of the train/dev data - has to be a number in the [0,1] range or None (None=no sampling)
-  "sample_rate": 1.0,
-  "arabert_model_name": "aubmindlab/bert-base-arabert",
+  "sample_rate": 0.1,
+  //"aubmindlab/bert-base-arabert" or "lanwuwei/GigaBERT-v3-Arabic-and-English"
+  "arabert_model_name": "lanwuwei/GigaBERT-v3-Arabic-and-English",
   "bert_model_params": {
     "evaluate_during_training": "True",
     "adam_epsilon": 1e-8,
