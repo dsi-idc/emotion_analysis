@@ -9,7 +9,7 @@ from arabert.preprocess_arabert import never_split_tokens
 # logging.basicConfig(level=logging.INFO)
 # logger = logging.getLogger(__name__)
 
-machine = 'AVRAHAMI-PC'
+machine = 'azure_server'#'AVRAHAMI-PC'
 if __name__ == "__main__":
     # loading the config file
     config_dict = commentjson.load(open('config.json'))

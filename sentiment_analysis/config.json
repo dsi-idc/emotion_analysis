@@ -4,16 +4,19 @@
   "random_seed": 1984,
   "model_type": "BOW", //can be wither "arabert" or "BOW"
   "data_path": {
-    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data"
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data",
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\kaggle_data"
 	},
   "saving_data_path": {
-    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data\\bert_created_data"
-	},
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data\\bert_created_data",
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\kaggle_data\\bert_created_data"
+  },
   "saving_models_path": {
-    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models"
+    "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models",
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\models"
   },
   //sampling rate of the train/dev data - has to be a number in the [0,1] range or None (None=no sampling)
-  "sample_rate": 1.0,
+  "sample_rate": 0.1,
   "arabert_model_name": "aubmindlab/bert-base-arabert",
   "bert_model_params": {
     "evaluate_during_training": "True",
