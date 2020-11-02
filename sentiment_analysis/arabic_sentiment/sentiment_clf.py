@@ -14,7 +14,7 @@ from sklearn.svm import LinearSVC
 from sklearn.metrics import roc_auc_score, accuracy_score, classification_report
 import pickle
 import abc
-
+from transformers import AutoModel
 
 class SentimentAnalyser(object):
     """ Class creating a running a sentiment analysis in Arabic

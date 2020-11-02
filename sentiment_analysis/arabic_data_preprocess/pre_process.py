@@ -36,8 +36,7 @@ class PreProcess(object):
         if tokenizer is None:
             # we will use the built model by aubmindlab (https://huggingface.co/aubmindlab/bert-base-arabert)
             model_name = 'aubmindlab/bert-base-arabert'
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name, do_lower_case=False, do_basic_tokenize=True,
-                                                           never_split=never_split_tokens)
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         else:
             self.tokenizer = tokenizer
 
