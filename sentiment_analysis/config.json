@@ -1,23 +1,27 @@
 {
-  "model_version": "0.1",
-  "description": "base sentiment analyser project - 10.8.2020",
+  "model_version": "2.3",
+  "description": "new dataset split modeling, new data preprocess with gigabert - 7.1.2021",
   "random_seed": 1984,
-  "model_type": "BOW", //can be wither "arabert" or "BOW"
+  "model_type": "gigabert", //can be wither "arabert", "BOW", "gigabert" or "marbert"
+  "bert_model_name": "UBC-NLP/MARBERT",//"lanwuwei/GigaBERT-v4-Arabic-and-English",//"aubmindlab/bert-base-arabert",
   "data_path": {
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data",
-    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\kaggle_data"
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\eacl_challange\\our_data_splitted"
+    //"azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data"
 	},
   "saving_data_path": {
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data\\bert_created_data",
-    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\kaggle_data\\bert_created_data"
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data\\bert_created_data"
   },
   "saving_models_path": {
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models",
-    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\models"
+    "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models"
   },
+  //can be either train or predict
+  "mode": "train",
   //sampling rate of the train/dev data - has to be a number in the [0,1] range or None (None=no sampling)
-  "sample_rate": 0.1,
-  "arabert_model_name": "aubmindlab/bert-base-arabert",
+  "sample_rate": 1.0,
+  //"arabert_model_name": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\models\\checkpoint-283",
   "bert_model_params": {
     "evaluate_during_training": "True",
     "adam_epsilon": 1e-8,
@@ -25,7 +29,7 @@
     "warmup_steps": 0,
     "per_gpu_train_batch_size": 16,
     "per_gpu_eval_batch_size": 16,
-    "num_train_epochs": 1
+    "num_train_epochs": 3
   },
   "bow_model_params": {
     "min_df": 0.001,

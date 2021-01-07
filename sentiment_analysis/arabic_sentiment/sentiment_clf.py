@@ -83,22 +83,25 @@ class SentimentAnalyser(object):
         if len(y_pred) != n:
             raise IOError("Input is invalid, length of both vectors is inconsistent")
         # if all true values are not from the given label values - problem
-        if sum(np.logical_or(y_true == label_values[0], y_true == label_values[1])) != n:
+        if len([i for i in y_true if i in label_values]) != n:
             raise IOError("y_true values are inconsistent with the label_values given")
         # in case binary_preds==True, it means we were given binary values as input
-        binary_preds = sum(np.logical_or(y_pred==label_values[0], y_pred==label_values[1])) == n
+        #binary_preds = sum(np.logical_or(y_pred == label_values[0], y_pred==label_values[1])) == n
+        int_preds = len([i for i in y_pred if i in label_values])
         # in case continous_preds==True, it means we were given [0,1] values of the prediction
-        continous_preds = sum(np.logical_and(y_pred >= 0, y_pred <= 1)) == n and not binary_preds
-        if not binary_preds and not continous_preds:
-            raise IOError("y_pred values are inconsistent. They must contain probability values are label values")
+        continous_preds = sum(np.logical_and(y_pred >= 0, y_pred <= 1)) == n and not int_preds
+
         # actual calculations
         results = dict()
-        if binary_preds:
+        if int_preds:
             results['accuracy'] = accuracy_score(y_true, y_pred)
-            results['f1_score'] = f1_score(y_true, y_pred)
             results['confusion_matrix'] = confusion_matrix(y_true, y_pred)
-            results['precision_score'] = precision_score(y_true, y_pred)
-            results['recall_score'] = recall_score(y_true, y_pred)
+            avg_to_use = None if len(label_values) == 2 else 'macro'
+            results['precision_score'] = precision_score(y_true, y_pred, average=avg_to_use)
+            results['recall_score'] = recall_score(y_true, y_pred, average=avg_to_use)
+            results['f1_score'] = f1_score(y_true, y_pred, average=avg_to_use)
+            # this is important for the EACL challenge - the F-PN score
+            results['f1_PN'] = f1_score(y_true, y_pred, average=avg_to_use, labels=[0, 2])
         elif continous_preds:
             results['auc'] = roc_auc_score(y_true, y_pred)
             results['average_precision_score'] = average_precision_score(y_true, y_pred)
@@ -186,6 +189,7 @@ class BOWBasedSentimentAnalyser(SentimentAnalyser):
         self.pipeline = pipeline
         feature_names = pipeline.named_steps['vect'].get_feature_names()
         self.feature_names = feature_names
+        self.save_model(folder_name=self.saving_model_folder, file_name='bow_model')
 
     def predict(self, test_df):
         """
@@ -241,7 +245,7 @@ class BOWBasedSentimentAnalyser(SentimentAnalyser):
         :return: model (arabert)
             the model loaded
         """
-        loaded_model = pickle.load(open(os.path.join(folder_name, file_name), "rb"))
+        loaded_model = pickle.load(open(os.path.join(folder_name, file_name + '.p'), "rb"))
         return loaded_model
 
 
@@ -405,7 +409,7 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
                           compute_metrics=self.compute_metrics)
         trainer.train()
         # saving the model
-        self.save_model(model=trainer.model, folder_name='bert_based_model')
+        self.save_model(model=trainer.model)
 
     def predict(self, test_df):
         """
@@ -438,7 +442,8 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
             train label
         """
         # loading the model
-        loaded_model = self.load_model(folder_name='bert_based_model')
+        #loaded_model = self.load_model(folder_name='bert_based_model')
+        loaded_model = self.load_model(folder_name=self.saving_model_folder)
         loaded_model.eval()
         # generating data for the prediction
         if type(test_df) == pd.Series:
@@ -461,12 +466,23 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
         test_features = test_dataset.get_features(tokenizer=self.tokenizer, max_length=self.max_length)
         test_features_input_ids = [i.input_ids for i in test_features]
         model_inputs_as_tensors = torch.tensor(test_features_input_ids)
-        model_output = loaded_model(model_inputs_as_tensors)
+        # predicting the proba for each batch
+        cur_idx = 0
+        batch_size = self.bert_model_params['per_gpu_eval_batch_size']
         softmax_func = torch.nn.Softmax(dim=1)
-        proba_pred = softmax_func(model_output[0])
-        return proba_pred.detach().numpy()
+        num_of_classed = loaded_model.classifier.out_features
+        proba_pred_array_all_data = np.zeros(shape=(0, num_of_classed))
+        while cur_idx < model_inputs_as_tensors.shape[0]:
+            if cur_idx % batch_size*100 == 0:
+                print(f"Evaluating the model, predicted sentiment for {cur_idx} instances so for")
+            cur_model_output = loaded_model(model_inputs_as_tensors[cur_idx: cur_idx + batch_size])
+            cur_proba_pred = softmax_func(cur_model_output[0])
+            cur_proba_pred_array = cur_proba_pred.detach().numpy()
+            proba_pred_array_all_data = np.vstack([proba_pred_array_all_data, cur_proba_pred_array])
+            cur_idx += batch_size
+        return proba_pred_array_all_data
 
-    def save_model(self, model, folder_name):
+    def save_model(self, model):
         """
         a function to save the DL model in the disk
         :param model: model object
@@ -474,8 +490,8 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
         :param folder_name: str
             location where to save the model in
         """
-        model.save_pretrained(os.path.join(self.saving_model_folder, folder_name))
-        print(f"Model has been saved to {os.path.join(self.saving_model_folder, folder_name)}")
+        model.save_pretrained(self.saving_model_folder)
+        print(f"Model has been saved to {self.saving_model_folder}")
         return
 
     def load_model(self, folder_name):

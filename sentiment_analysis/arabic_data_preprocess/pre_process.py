@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer
-from arabert.preprocess_arabert import preprocess, never_split_tokens
+#from arabert.preprocess_arabert import preprocess, never_split_tokens
+from arabert.preprocess import ArabertPreprocessor, never_split_tokens
 from farasa.segmenter import FarasaSegmenter
 import re
 import emoji
@@ -14,7 +15,7 @@ class PreProcess(object):
 
         Attributes
         ----------
-        use_default_farsa_preprocess : boolean. Default: True
+        use_arabert_preprocess : boolean. Default: True
             whether to use the default farasa (a python package) for pre-processing procedures
         tokenizer : tokenizer object. Default: None
             the tokenizer to be used along the pre-processing steps. Currently it is not used - for future usage.
@@ -28,14 +29,13 @@ class PreProcess(object):
         >>> preprocess_obj = PreProcess(use_default_farsa_preprocess=True)
         >>> preprocess_obj.transform(sentences_list=list_of_sentences, extract_and_paste_emojies=True)
         """
-    def __init__(self, use_default_farsa_preprocess=True, tokenizer=None, lemmetize_data=False):
-        self.use_default_farsa_preprocess = use_default_farsa_preprocess
-
+    def __init__(self, use_arabert_preprocess=True, tokenizer=None, lemmetize_data=False):
+        self.use_arabert_preprocess = use_arabert_preprocess
         self.lemmetize_data = lemmetize_data
-        # in case tokenizer, we will use arabert tokenizer
+        # in case no tokenizer is provided, we will use arabert latest tokenizer
         if tokenizer is None:
-            # we will use the built model by aubmindlab (https://huggingface.co/aubmindlab/bert-base-arabert)
-            model_name = 'aubmindlab/bert-base-arabert'
+            # we will use the built model by aubmindlab (https://huggingface.co/aubmindlab/bert-base-arabertv2)
+            model_name = 'aubmindlab/bert-base-arabertv2'
             self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         else:
             self.tokenizer = tokenizer
@@ -53,7 +53,7 @@ class PreProcess(object):
         """
         pass
 
-    def transform(self, sentences_list, extract_and_paste_emojies=False):
+    def transform(self, sentences_list, keep_emojis=True, remove_RT_prefix=True, remove_punctuations=True):
         """
         transforming data and applying all pre-processing steps over it. In case 'fit' is required, it will yiled an
         error in case data is not fitted yet
@@ -62,32 +62,41 @@ class PreProcess(object):
         ----------
         :param sentences_list: list (of arabic sentences)
             list of sentences to apply the function on. Each sentence is treated independently
-        :param extract_and_paste_emojies: boolean. Default: False
-            whether to handle emojies is a special way. Currently we only know how to handle emojies in a very specific
-            way (extract them and then paste them at the end of the sentence - not ideal)
-            TODO: handle empjies in a better way (do not convert them to ?? and "leave" them as is in the sentence)
+        :param keep_emojis: boolean. Default: False
+            whether to keep the emojies in the text.
+        :param remove_RT_prefix: boolean. Default: True
+            whether to remove RT prefix in cases of retweets
+        :param remove_punctuations: boolean. Default: True
+            whether to remove all punctuations from the text (,?.$%# etc...)
 
         :return: list
             list of transformed arabic sentences. Same input list, but after the transform function has been applied
             over all of them
 
         """
-        farasa_segmenter = FarasaSegmenter(interactive=True)
+        arabert_pre_process_obj = ArabertPreprocessor(model_name='bert-large-arabertv2', keep_emojis=keep_emojis,
+                                                      remove_html_markup=True, replace_urls_emails_mentions=True)
         new_sentences_list = list()
         # looping over each sentence
         for cur_text in sentences_list:
-            # in case we decided to use the farase preprocess
-            if self.use_default_farsa_preprocess:
-                preprocessed_text = preprocess(cur_text, do_farasa_tokenization=True,
-                                               farasa=farasa_segmenter, use_farasapy=True)
-                preprocessed_text_as_list = preprocessed_text.split(" ")
-                # removal of punctuation (e.g., '?', '!?!')
-                preprocessed_text_as_list = [cur_word for cur_word in preprocessed_text_as_list
-                                             if not all(j in string.punctuation for j in cur_word)]
-                if extract_and_paste_emojies:
-                    emojies_found = self.extract_emojis(text=cur_text)
-                    preprocessed_text_as_list.extend(emojies_found)
-                new_sentences_list.append(' '.join(preprocessed_text_as_list))
+            # in case we want to remove the RT in case of retweets
+            if remove_RT_prefix and cur_text.startswith('"RT '):
+                cur_text = cur_text[4:]
+            if remove_RT_prefix and cur_text.startswith('RT '):
+                cur_text = cur_text[3:]
+            # in case we decided to use the arabert preprocess (it is a very good one)
+            if self.use_arabert_preprocess:
+                preprocessed_text = arabert_pre_process_obj.preprocess(cur_text)
+                # in case we want to remove punctuations
+                if remove_punctuations:
+                    preprocessed_text_as_list = preprocessed_text.split(" ")
+                    # removal of punctuation (e.g., '?', '!?!')
+                    preprocessed_text_as_list = [cur_word for cur_word in preprocessed_text_as_list
+                                                 if not all(j in string.punctuation for j in cur_word)]
+                    new_sentences_list.append(' '.join(preprocessed_text_as_list))
+                # in case we do not want to remove punctuations - we'll add the data as is
+                else:
+                    new_sentences_list.append(preprocessed_text)
             # currently not doing anything in such case, only supports the default case
             else:
                 new_sentences_list.append(cur_text)
