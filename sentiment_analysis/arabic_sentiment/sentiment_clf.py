@@ -6,15 +6,18 @@ from transformers.data.processors import SingleSentenceClassificationProcessor
 from transformers import Trainer, TrainingArguments
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, precision_score, recall_score, average_precision_score
-import torch
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.svm import LinearSVC
 from sklearn.metrics import roc_auc_score, accuracy_score, classification_report
+from sklearn.utils.class_weight import compute_class_weight
 import pickle
 import abc
-from transformers import AutoModel
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 
 class SentimentAnalyser(object):
     """ Class creating a running a sentiment analysis in Arabic
@@ -307,12 +310,15 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
         :return: dict
             a dictionary with results (f1 and friends)
         """
-        preds = np.argmax(p.predictions, axis=1)
+        # why do we take here the 0 index????? need to find out!!!
+        preds = np.argmax(p.predictions[0], axis=1)
         assert len(preds) == len(p.label_ids)
-        print(classification_report(p.label_ids, preds))
-        print(confusion_matrix(p.label_ids, preds))
-        f1_Positive = f1_score(p.label_ids, preds, pos_label=1, average='binary')
-        f1_Negative = f1_score(p.label_ids, preds, pos_label=0, average='binary')
+        #print(classification_report(p.label_ids, preds))
+        #print(confusion_matrix(p.label_ids, preds))
+        f1_Positive = f1_score(p.label_ids, preds, pos_label=1, average='macro')
+        f1_Negative = f1_score(p.label_ids, preds, pos_label=0, average='macro')
+        # the special f1 score for the EACL challange
+        f1_PN = f1_score(p.label_ids, preds, average='macro', labels=[0, 2])
         macro_f1 = f1_score(p.label_ids, preds, average='macro')
         macro_precision = precision_score(p.label_ids, preds, average='macro')
         macro_recall = recall_score(p.label_ids, preds, average='macro')
@@ -321,6 +327,7 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
             'f1_pos': f1_Positive,
             'f1_neg': f1_Negative,
             'macro_f1': macro_f1,
+            'macro_f1_PN': f1_PN,
             'macro_precision': macro_precision,
             'macro_recall': macro_recall,
             'accuracy': acc
@@ -344,7 +351,7 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
         """
         train_labels = Counter(train_df[self.label_col_name]).keys()
         num_labels = len(train_labels)
-        dev_labels = Counter(train_df[self.label_col_name]).keys()
+        dev_labels = Counter(dev_df[self.label_col_name]).keys()
         if num_labels != len(dev_labels):
             raise IOError("train and dev datasets contain different number of labels")
         # creating a DF for train/test with relevant columns.
@@ -386,27 +393,76 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
                                      overwrite_examples=True)
 
         train_features = train_dataset.get_features(tokenizer=self.tokenizer, max_length=self.max_length)
-        test_features = dev_dataset.get_features(tokenizer=self.tokenizer, max_length=self.max_length)
-        training_args = TrainingArguments("./train")
+        dev_features = dev_dataset.get_features(tokenizer=self.tokenizer, max_length=self.max_length)
 
-        training_args.do_train = True
+        # idea about a self-trainer is taken from here - https://huggingface.co/transformers/main_classes/trainer.html
+        class MyTrainer(Trainer):
+            def __init__(self, loss_func=torch.nn.CrossEntropyLoss(), **kwargs):
+                self.loss_func = loss_func
+                super().__init__(**kwargs)
+
+            def compute_loss(self, model, inputs):
+                labels = inputs.pop("labels")
+                outputs = model(**inputs)
+                logits = outputs[0]
+                return self.loss_func(logits, labels)
+
+        class FocalLoss(nn.modules.loss._WeightedLoss):
+            def __init__(self, weight=None, gamma=2, reduction='mean'):
+                super(FocalLoss, self).__init__(weight, reduction=reduction)
+                self.gamma = gamma
+                self.weight = weight  # weight parameter will act as the alpha parameter to balance class weights
+
+            def forward(self, input, target):
+                ce_loss = F.cross_entropy(input, target, reduction=self.reduction, weight=self.weight)
+                pt = torch.exp(-ce_loss)
+                focal_loss = ((1 - pt) ** self.gamma * ce_loss).mean()
+                return focal_loss
+
+        class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(list(train_labels)),
+                                             y=train_df['label'])
+        #my_loss_func = torch.nn.CrossEntropyLoss(weight=torch.tensor(class_weights, dtype=torch.float))
+        my_loss_func = FocalLoss(weight=torch.tensor(class_weights, dtype=torch.float))
+
+        # how to define a trainer and all its arguments is taken from here - https://github.com/huggingface/notebooks/blob/master/examples/text_classification.ipynb
+        args = TrainingArguments(
+            "arabic_nlp_model",
+            evaluation_strategy="epoch",
+            #learning_rate=1e-5,
+            learning_rate=1e-4,
+            per_device_train_batch_size=16,
+            per_device_eval_batch_size=8,
+            num_train_epochs=5,
+            weight_decay=0.01,
+            load_best_model_at_end=True,
+            #metric_for_best_model="macro_f1_PN",
+        )
+
         # setting the params of the BERT classifier
         for cur_param in self.bert_model_params.keys():
             try:
-                training_args.__dict__[cur_param] = eval(self.bert_model_params[cur_param])
+                args.__dict__[cur_param] = eval(self.bert_model_params[cur_param])
             except TypeError:
-                training_args.__dict__[cur_param] = self.bert_model_params[cur_param]
-        training_args.logging_steps = (len(train_features) - 1) // training_args.per_gpu_train_batch_size + 1
-        training_args.save_steps = training_args.logging_steps
-        training_args.output_dir = self.saving_model_folder
-        training_args.eval_steps = 100
+                args.__dict__[cur_param] = self.bert_model_params[cur_param]
+        args.logging_steps = (len(train_features) - 1) // args.per_device_train_batch_size + 1
+        args.save_steps = args.logging_steps
+        args.output_dir = self.saving_model_folder
+        #training_args.compute_metrics = f1_score
+        #training_args.compute_metrics = self.compute_metrics
         # training_args.logging_dir = "gs://" from torch.utils.tensorboard import SummaryWriter supports google cloud storage
 
-        trainer = Trainer(model=model,
-                          args=training_args,
-                          train_dataset=train_features,
-                          eval_dataset=test_features,
-                          compute_metrics=self.compute_metrics)
+        trainer = MyTrainer(loss_func=my_loss_func, model=model, args=args,
+                            train_dataset=train_features,
+                            eval_dataset=dev_features,
+                            compute_metrics=self.compute_metrics
+                            )
+
+        #trainer = Trainer(model=model,
+        #                  args=args,
+        #                  train_dataset=train_features,
+        #                 eval_dataset=dev_features,
+        #                  #compute_metrics = compute_metrics)
+        #                  compute_metrics=self.compute_metrics)
         trainer.train()
         # saving the model
         self.save_model(model=trainer.model)
@@ -468,12 +524,12 @@ class BertBasedSentimentAnalyser(SentimentAnalyser):
         model_inputs_as_tensors = torch.tensor(test_features_input_ids)
         # predicting the proba for each batch
         cur_idx = 0
-        batch_size = self.bert_model_params['per_gpu_eval_batch_size']
+        batch_size = self.bert_model_params['per_device_eval_batch_size']
         softmax_func = torch.nn.Softmax(dim=1)
         num_of_classed = loaded_model.classifier.out_features
         proba_pred_array_all_data = np.zeros(shape=(0, num_of_classed))
         while cur_idx < model_inputs_as_tensors.shape[0]:
-            if cur_idx % batch_size*100 == 0:
+            if cur_idx % batch_size*500 == 0:
                 print(f"Evaluating the model, predicted sentiment for {cur_idx} instances so for")
             cur_model_output = loaded_model(model_inputs_as_tensors[cur_idx: cur_idx + batch_size])
             cur_proba_pred = softmax_func(cur_model_output[0])

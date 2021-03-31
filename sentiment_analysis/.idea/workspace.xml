@@ -19,18 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c197b583-480a-4488-90dd-74792d4df177" name="Default Changelist" comment="New line">
-      <change afterPath="$PROJECT_DIR$/main_sentiment_analysis_prediction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sentiment_python_proj.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sentiment_python_proj.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="c197b583-480a-4488-90dd-74792d4df177" name="Default Changelist" comment="Adding the new pre-process abilities from arabert, aligning the process to work also for the EACL challange">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arabert" beforeDir="false" afterPath="$PROJECT_DIR$/arabert" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arabic_data_preprocess/pre_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/arabic_data_preprocess/pre_process.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arabic_data_preprocess/pre_process.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py" beforeDir="false" afterPath="$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_sentiment_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_sentiment_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_sentiment_analysis_prediction.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_sentiment_analysis_prediction.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +69,27 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main_sentiment_analysis">
+    <configuration name="eacl_challnage_alignment_between_dfs" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="sentiment_python_proj" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/eacl_challnage_alignment_between_dfs.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main_sentiment_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="sentiment_python_proj" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,6 +158,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main_sentiment_analysis" />
+        <item itemvalue="Python.eacl_challnage_alignment_between_dfs" />
         <item itemvalue="Python.main_sentiment_analysis_prediction" />
         <item itemvalue="Python.sentiment_clf" />
       </list>
@@ -188,7 +205,21 @@
       <option name="project" value="LOCAL" />
       <updated>1601282039194</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Adding the new pre-process abilities from arabert, aligning the process to work also for the EACL challange">
+      <created>1610020017797</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1610020017797</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Adding the new pre-process abilities from arabert, aligning the process to work also for the EACL challange">
+      <created>1610020163408</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610020163408</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -211,13 +242,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding save and load functions to the sentiment class" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding save and load functions to the sentiment class" />
+    <MESSAGE value="Adding the new pre-process abilities from arabert, aligning the process to work also for the EACL challange" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding the new pre-process abilities from arabert, aligning the process to work also for the EACL challange" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605516478004">
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1611328972867">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1605516478004" />
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1611328972867" />
     <state x="595" y="208" key="#xdebugger.evaluate" timestamp="1605768905297">
       <screen x="0" y="0" width="1680" height="1010" />
     </state>
@@ -226,66 +258,75 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1605522972215" />
-    <state width="1899" height="336" key="GridCell.Tab.0.bottom" timestamp="1610019676699">
+    <state width="1899" height="295" key="GridCell.Tab.0.bottom" timestamp="1612785834901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="116" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1609454278371" />
+    <state width="1259" height="295" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1612635645591" />
     <state width="1659" height="233" key="GridCell.Tab.0.bottom/0.0.1680.1010@0.0.1680.1010" timestamp="1605805723555" />
-    <state width="1899" height="336" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610019676699" />
-    <state width="1899" height="336" key="GridCell.Tab.0.center" timestamp="1610019676699">
+    <state width="1899" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1612785834901" />
+    <state width="3819" height="422" key="GridCell.Tab.0.bottom/0.0.3840.2120@0.0.3840.2120" timestamp="1611006554619" />
+    <state width="1259" height="170" key="GridCell.Tab.0.bottom/3840.0.1920.960/0.0.1280.680@0.0.1280.680" timestamp="1610453752708" />
+    <state width="1899" height="295" key="GridCell.Tab.0.center" timestamp="1612785834901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="116" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1609454278356" />
+    <state width="1259" height="295" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1612635645591" />
     <state width="1659" height="233" key="GridCell.Tab.0.center/0.0.1680.1010@0.0.1680.1010" timestamp="1605805723555" />
-    <state width="1899" height="336" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610019676699" />
-    <state width="1899" height="336" key="GridCell.Tab.0.left" timestamp="1610019676699">
+    <state width="1899" height="295" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1612785834901" />
+    <state width="3819" height="422" key="GridCell.Tab.0.center/0.0.3840.2120@0.0.3840.2120" timestamp="1611006554604" />
+    <state width="1259" height="170" key="GridCell.Tab.0.center/3840.0.1920.960/0.0.1280.680@0.0.1280.680" timestamp="1610453752708" />
+    <state width="1899" height="295" key="GridCell.Tab.0.left" timestamp="1612785834901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="116" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1609454278356" />
+    <state width="1259" height="295" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1612635645591" />
     <state width="1659" height="233" key="GridCell.Tab.0.left/0.0.1680.1010@0.0.1680.1010" timestamp="1605805723555" />
-    <state width="1899" height="336" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610019676699" />
-    <state width="1899" height="336" key="GridCell.Tab.0.right" timestamp="1610019676699">
+    <state width="1899" height="295" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1612785834901" />
+    <state width="3819" height="422" key="GridCell.Tab.0.left/0.0.3840.2120@0.0.3840.2120" timestamp="1611006554604" />
+    <state width="1259" height="170" key="GridCell.Tab.0.left/3840.0.1920.960/0.0.1280.680@0.0.1280.680" timestamp="1610453752708" />
+    <state width="1899" height="295" key="GridCell.Tab.0.right" timestamp="1612785834901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="116" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1609454278356" />
+    <state width="1259" height="295" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1612635645591" />
     <state width="1659" height="233" key="GridCell.Tab.0.right/0.0.1680.1010@0.0.1680.1010" timestamp="1605805723555" />
-    <state width="1899" height="336" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610019676699" />
-    <state width="1899" height="383" key="GridCell.Tab.1.bottom" timestamp="1610019243052">
+    <state width="1899" height="295" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1612785834901" />
+    <state width="3819" height="422" key="GridCell.Tab.0.right/0.0.3840.2120@0.0.3840.2120" timestamp="1611006554604" />
+    <state width="1259" height="170" key="GridCell.Tab.0.right/3840.0.1920.960/0.0.1280.680@0.0.1280.680" timestamp="1610453752708" />
+    <state width="1899" height="353" key="GridCell.Tab.1.bottom" timestamp="1612257349618">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="238" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1609453752224" />
+    <state width="1259" height="225" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610052555247" />
     <state width="1659" height="233" key="GridCell.Tab.1.bottom/0.0.1680.1010@0.0.1680.1010" timestamp="1605805712790" />
-    <state width="1899" height="383" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1610019243052" />
-    <state width="1899" height="383" key="GridCell.Tab.1.center" timestamp="1610019243052">
+    <state width="1899" height="353" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1612257349618" />
+    <state width="1899" height="353" key="GridCell.Tab.1.center" timestamp="1612257349618">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="238" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1609453752224" />
+    <state width="1259" height="225" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1610052555247" />
     <state width="1659" height="233" key="GridCell.Tab.1.center/0.0.1680.1010@0.0.1680.1010" timestamp="1605805712790" />
-    <state width="1899" height="383" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1610019243052" />
-    <state width="1899" height="383" key="GridCell.Tab.1.left" timestamp="1610019243052">
+    <state width="1899" height="353" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1612257349618" />
+    <state width="1899" height="353" key="GridCell.Tab.1.left" timestamp="1612257349618">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="238" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1609453752224" />
+    <state width="1259" height="225" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1610052555247" />
     <state width="1659" height="233" key="GridCell.Tab.1.left/0.0.1680.1010@0.0.1680.1010" timestamp="1605805712790" />
-    <state width="1899" height="383" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1610019243052" />
-    <state width="1899" height="383" key="GridCell.Tab.1.right" timestamp="1610019243052">
+    <state width="1899" height="353" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1612257349618" />
+    <state width="1899" height="353" key="GridCell.Tab.1.right" timestamp="1612257349618">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1259" height="238" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1609453752224" />
+    <state width="1259" height="225" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1610052555247" />
     <state width="1659" height="233" key="GridCell.Tab.1.right/0.0.1680.1010@0.0.1680.1010" timestamp="1605805712790" />
-    <state width="1899" height="383" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1610019243052" />
+    <state width="1899" height="353" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1612257349618" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1605517700066">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1605517700066" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610019894467">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1610020166310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610019894467" />
-    <state x="317" y="210" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1605773194481">
-      <screen x="0" y="0" width="1680" height="1010" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1610020166310" />
+    <state x="362" y="216" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1611771478992">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="317" y="210" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1/0.0.1680.1010@0.0.1680.1010" timestamp="1605773194481" />
+    <state x="362" y="216" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1/0.0.1920.1040@0.0.1920.1040" timestamp="1611771478992" />
     <state x="667" y="119" width="906" height="801" key="find.popup" timestamp="1606734508814">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -296,48 +337,38 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
-          <line>104</line>
+          <line>107</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
-          <line>371</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis_prediction.py</url>
-          <line>82</line>
+          <line>156</line>
           <option name="timeStamp" value="77" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
-          <line>98</line>
+          <line>101</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
-          <line>94</line>
+          <line>97</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
-          <line>96</line>
+          <line>99</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis_prediction.py</url>
-          <line>68</line>
+          <line>142</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
-          <line>113</line>
+          <line>116</line>
           <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_sentiment_analysis_prediction.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis_prediction.py</url>
@@ -345,24 +376,59 @@
           <option name="timeStamp" value="91" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="95" />
+          <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
+          <line>501</line>
+          <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/arabic_data_preprocess/pre_process.py</url>
-          <line>80</line>
-          <option name="timeStamp" value="96" />
+          <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
+          <line>533</line>
+          <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
+          <line>68</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="111" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
+          <line>467</line>
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/arabic_sentiment/sentiment_clf.py</url>
+          <line>446</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_sentiment_analysis_prediction.py</url>
+          <line>116</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eacl_challnage_alignment_between_dfs.py</url>
           <line>32</line>
-          <option name="timeStamp" value="97" />
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/arabic_sentiment/data_loader.py</url>
-          <line>53</line>
-          <option name="timeStamp" value="98" />
+          <url>file://$PROJECT_DIR$/main_sentiment_analysis.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eacl_challnage_alignment_between_dfs.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eacl_challnage_alignment_between_dfs.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="133" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

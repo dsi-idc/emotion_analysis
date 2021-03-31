@@ -27,15 +27,18 @@ if __name__ == "__main__":
     # loading the data
     data_loader_obj = DataLoader(files_path=config_dict['data_path'][machine], target_column_idx=0)
     train_tsvs = [f_name for f_name in os.listdir(config_dict['data_path'][machine])
-                  if f_name.startswith('train') and f_name.endswith('.tsv')]
+                  if (f_name.startswith('train') or f_name.startswith('dev')) and f_name.endswith('.tsv')]
     dev_tsvs = [f_name for f_name in os.listdir(config_dict['data_path'][machine])
-                if not f_name.startswith('dev') and f_name.endswith('.tsv')]
+                if f_name.startswith('test') and f_name.endswith('.tsv')]
     train_sentiment_df = \
         data_loader_obj.load_tsv_files(file_names=train_tsvs, new_column_names=[label_col, 'text'],
                                        seed=config_dict['random_seed'], sample_rate=config_dict['sample_rate'])
     dev_sentiment_df = \
         data_loader_obj.load_tsv_files(file_names=dev_tsvs, new_column_names=[label_col, 'text'],
                                        seed=config_dict['random_seed'], sample_rate=config_dict['sample_rate'])
+    # filtering out cutted tweets (those endng with ...<LINK>
+    train_sentiment_df = train_sentiment_df[(~train_sentiment_df['text'].str.contains('... h', regex=False)) & (~train_sentiment_df['text'].str.contains('… h', regex=False))]
+    dev_sentiment_df = dev_sentiment_df[(~dev_sentiment_df['text'].str.contains('... h', regex=False)) & (~dev_sentiment_df['text'].str.contains('… h', regex=False))]
     # preprocessing the data to be used by the clf later. If it is a BOW model - we'll pull out and paste the emojies
     preprocess_obj = PreProcess(use_arabert_preprocess=True, tokenizer=None, lemmetize_data=False)
     train_sentiment_df['text'] =\
@@ -74,7 +77,7 @@ if __name__ == "__main__":
             print(bert_based_sentiment_obj.results)
         elif len(label_map) > 2:
             dev_set_predictions = bert_based_sentiment_obj.predict(test_df=dev_sentiment_df)
-            bert_based_sentiment_obj.eval_clf(y_true=dev_label, y_pred=dev_set_predictions, save_results=True)
+            bert_based_sentiment_obj.eval_clf(y_true=dev_label, y_pred=dev_set_predictions, label_values=(0, 1, 2), save_results=True)
             print(bert_based_sentiment_obj.results)
 
 

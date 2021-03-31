@@ -1,11 +1,14 @@
 {
-  "model_version": "2.3",
-  "description": "new dataset split modeling, new data preprocess with gigabert - 7.1.2021",
+  "model_version": "4.1",
+  "description": "adding weights to the arabert model + logging the F1_PN metric  - 10.1.2021",
   "random_seed": 1984,
   "model_type": "gigabert", //can be wither "arabert", "BOW", "gigabert" or "marbert"
-  "bert_model_name": "UBC-NLP/MARBERT",//"lanwuwei/GigaBERT-v4-Arabic-and-English",//"aubmindlab/bert-base-arabert",
+  //"UBC-NLP/MARBERT",//"lanwuwei/GigaBERT-v4-Arabic-and-English",//"aubmindlab/bert-base-arabertv2",
+  "bert_model_name": "lanwuwei/GigaBERT-v4-Arabic-and-English",
   "data_path": {
     "AVRAHAMI-PC": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data",
+    //"azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\eacl_challange\\our_data_splitted\\per_dialect"
+    //next one is for the WHOLE corpus (without seperation to dialects
     "azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\eacl_challange\\our_data_splitted"
     //"azure_server": "C:\\Users\\avrahami\\Documents\\Private\\IDC\\influencer_influenced_project\\sentiment_analysis_effort\\kaggle_data"
 	},
@@ -25,11 +28,11 @@
   "bert_model_params": {
     "evaluate_during_training": "True",
     "adam_epsilon": 1e-8,
-    "learning_rate": 2e-5,
+    "learning_rate": 1e-4,
     "warmup_steps": 0,
-    "per_gpu_train_batch_size": 16,
-    "per_gpu_eval_batch_size": 16,
-    "num_train_epochs": 3
+    "per_device_train_batch_size": 16,
+    "per_device_eval_batch_size": 16,
+    "num_train_epochs": 5
   },
   "bow_model_params": {
     "min_df": 0.001,
